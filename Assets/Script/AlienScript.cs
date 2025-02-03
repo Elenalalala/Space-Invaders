@@ -43,6 +43,7 @@ public class AlienScript : MonoBehaviour
     private bool isReturning = false;
     private bool isMutating;
 
+
     void Awake()
     {
         global = GameObject.Find("Global").GetComponent<Gobal>();
@@ -58,10 +59,11 @@ public class AlienScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.transform.position.z < -30f)
+        if (gameObject.transform.position.z < -30f || gameObject.transform.position.z > 30f || gameObject.transform.position.x < -100 || gameObject.transform.position.x > 100)
         {
             if(isVictim)
             {
+                Debug.Log("victimm dieeeeee");
                 global.KillOneAlien();
             }
             Destroy(gameObject);
@@ -236,7 +238,7 @@ public class AlienScript : MonoBehaviour
     protected virtual void OnCollisionEnter(Collision collision)
     {
         Collider collider = collision.collider;
-        if (collider.CompareTag("Player") && (isZombie || isAlive) )
+        if ((collider.CompareTag("Player") && (isZombie || isAlive)) && !global.POWER)
         {
             SceneManager.LoadScene("EndScene");
             GameManager.Instance.SaveScore();
@@ -250,6 +252,7 @@ public class AlienScript : MonoBehaviour
             {
                 bullet.Die();
 
+                if (isVictim) global.KillOneAlien();
 
                 if (ReallyDie()) return;
                 Die();
@@ -269,7 +272,6 @@ public class AlienScript : MonoBehaviour
             if (isMutatable && MutatableTimes > 0 && !isZombie && !isMutating)
             {
                 Mutate();
-                isVictim = true;
                 MutatableTimes--;
             }
 
@@ -286,10 +288,11 @@ public class AlienScript : MonoBehaviour
 
         if (collider.CompareTag("Alien"))
         {
-            if (collider.GetComponent<AlienScript>().isZombie && !isZombie && isMutatable)
+            if (collider.GetComponent<AlienScript>().isZombie && !isZombie && isMutatable && isAlive)
             {
                 this.Die();
                 this.Mutate();
+                isVictim = true;
             }
             else
             {

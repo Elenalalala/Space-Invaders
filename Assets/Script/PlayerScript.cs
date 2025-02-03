@@ -10,8 +10,6 @@ public class PlayerScript : MonoBehaviour
     public GameObject deathExplosion;
 
     private Gobal global;
-
-    public bool invincible = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +19,21 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-                
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            global.lives += 10;
+            activeBullet += 100;
+            global.UpdateBullet(activeBullet);
+            global.skill += 9;
+            global.AddSkill();
+            global.POWER = true;
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            global.POWER = false;
+        }
+
         if (Input.GetButtonDown("Jump"))
         {
             if (Input.GetAxisRaw("Vertical") > 0 && global.skill > 0)
@@ -48,7 +60,7 @@ public class PlayerScript : MonoBehaviour
     {
         activeBullet --;
         global.UpdateBullet(activeBullet);
-        if (invincible) activeBullet = 200;
+        if (global.POWER) activeBullet = 200;
         Vector3 spawnPos = gameObject.transform.position;
         spawnPos.z += 1.5f;
 
@@ -87,6 +99,7 @@ public class PlayerScript : MonoBehaviour
 
     public void AbsorbBulletRainSkill()
     {
+        Debug.Log("addddd skilll");
         global.AddSkill();
     }
 

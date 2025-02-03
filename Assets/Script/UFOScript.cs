@@ -8,7 +8,7 @@ public class UFOScript : AlienScript
     private void Start()
     {
         global = GameObject.Find("Global").GetComponent<Gobal>();
-        Move(Vector3.right * 200f);
+        Move(Vector3.right * 300f);
     }
     public override void Move(Vector3 dir)
     {
@@ -30,7 +30,6 @@ public class UFOScript : AlienScript
                 //if (ReallyDie()) return;
                 Die();
                 global.AddScore(points);
-                global.AddSkill();
             }
 
         }
@@ -40,7 +39,7 @@ public class UFOScript : AlienScript
         }
         if (collision.collider.CompareTag("Player"))
         {
-            if(this.gameObject.GetComponent<Renderer>().material == goldenMaterial)
+            if (this.gameObject.GetComponent<Renderer>().sharedMaterial == goldenMaterial)
             {
                 // get absorbed by the player
                 collision.collider.gameObject.GetComponent<PlayerScript>().AbsorbBulletRainSkill();

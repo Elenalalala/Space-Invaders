@@ -10,6 +10,7 @@ public class Gobal : MonoBehaviour
     public TMP_Text livesBoard;
     public TMP_Text skillBoard;
     public TMP_Text bulletBoard;
+    public TMP_Text enemyBoard;
     private int score = 0;
     public int lives = 3;
     public int skill = 3;
@@ -20,6 +21,8 @@ public class Gobal : MonoBehaviour
     public int curRow = 3;
 
     private int curAlienNum = 0;
+
+    public bool POWER = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +32,8 @@ public class Gobal : MonoBehaviour
         livesBoard.text = lives.ToString();
 
         skillBoard.text = skill.ToString();
+
+        enemyBoard.text = curAlienNum.ToString();
 
         //Update Bullet num
         UpdateBullet(GameObject.Find("Player").GetComponent<PlayerScript>().activeBullet);
@@ -51,7 +56,7 @@ public class Gobal : MonoBehaviour
                 Vector3 spawnPos = new Vector3(c * 2.5f, 0, 8.0f - r * 2.5f);
                 GameObject alienObj = Instantiate(alien, spawnPos, Quaternion.identity) as GameObject;
                 alienObj.GetComponent<AlienScript>().SetUUID(c + r * 11);
-
+                enemyBoard.text = curAlienNum.ToString();
             }
         }
     }
@@ -67,11 +72,11 @@ public class Gobal : MonoBehaviour
         while (!spawnedUFO)
         {
             //if (spawnedUFO != null) Destroy(spawnedUFO);
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(12f);
 
             Vector3 spawnPosition = new Vector3(-20, 0, 10);
             spawnedUFO = Instantiate(UFO, spawnPosition, Quaternion.identity);
-            yield return new WaitForSeconds(9.9f);
+            yield return new WaitForSeconds(11.9f);
             Destroy(spawnedUFO);
             spawnedUFO = null;
         }
@@ -85,6 +90,7 @@ public class Gobal : MonoBehaviour
 
     public void AddSkill()
     {
+        Debug.Log("Add skilll here");
         skill++;
         skillBoard.text = skill.ToString();
     }
@@ -97,8 +103,8 @@ public class Gobal : MonoBehaviour
     public void KillOneAlien()
     {
         curAlienNum--;
-        livesBoard.text = curAlienNum.ToString();
-        if(curAlienNum <= 0)
+        enemyBoard.text = curAlienNum.ToString();
+        if (curAlienNum <= 0)
         {
             // clean all zombie alien
             GameObject[] zombies = GameObject.FindGameObjectsWithTag("Alien");
@@ -109,6 +115,7 @@ public class Gobal : MonoBehaviour
             // Respawn Alien
             curLevel++;
             curAlienNum = 0;
+            enemyBoard.text = curAlienNum.ToString();
             SpawnAlien();
         }
     }
