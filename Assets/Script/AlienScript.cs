@@ -18,7 +18,7 @@ public class AlienScript : MonoBehaviour
     private readonly float dist = 0.5f;
     private int curStep = 0;
     private Vector3 curDir;
-    private AudioSource audioSource;
+    protected AudioSource audioSource;
     private bool isMovingDownward = false;
     private readonly int speedUpInterval = 1;
     private int speedUpCounter = 0;
@@ -36,14 +36,12 @@ public class AlienScript : MonoBehaviour
     private float shootTimer = 0f;
     private float nextShootTime;
 
-    public AudioClip firstBeep;
-    public AudioClip secondBeep;
-
     private Vector3 originalPosition;
     private bool isReturning = false;
     private bool isMutating;
 
     public GameObject deathExplosion;
+    public AudioClip deathSound;
 
     void Awake()
     {
@@ -62,7 +60,7 @@ public class AlienScript : MonoBehaviour
     {
         if (gameObject.transform.position.z < -30f || gameObject.transform.position.z > 30f || gameObject.transform.position.x < -100f || gameObject.transform.position.x > 100f)
         {
-            if(isVictim)
+            if (isVictim)
             {
                 Debug.Log("victimm dieeeeee");
                 global.KillOneAlien();
@@ -104,15 +102,12 @@ public class AlienScript : MonoBehaviour
                 timer = 0f;
             }
 
-            if (uuid < 11)
+            shootTimer += Time.deltaTime;
+            if (shootTimer >= nextShootTime)
             {
-                shootTimer += Time.deltaTime;
-                if (shootTimer >= nextShootTime)
-                {
-                    Shoot();
-                    shootTimer = 0f;
-                    nextShootTime = Random.Range(3.0f, 10.0f);
-                }
+                Shoot();
+                shootTimer = 0f;
+                nextShootTime = Random.Range(3.0f, 10.0f);
             }
 
             if (!isReturning)
@@ -141,26 +136,16 @@ public class AlienScript : MonoBehaviour
 
     public virtual void Move(Vector3 dir)
     {
-        if (firstBeep && secondBeep)
-        {
-            gameObject.transform.position += dir;
-            originalPosition += dir;
-            if (curStep % 2 == 0)
-            {
-                audioSource.clip = firstBeep;
-            }
-            else
-            {
-                audioSource.clip = secondBeep;
-            }
-            audioSource.Play();
-        }
+        gameObject.transform.position += dir;
+        originalPosition += dir;
+
+        AudioManager.Instance.PlayMovementSound();
     }
 
     void Shoot()
     {
         float shootChance = Random.Range(0.0f, 10.0f);
-        if(shootChance < 1.0f && bullet == null)
+        if (shootChance < 1.0f && bullet == null)
         {
             Vector3 spawnPos = gameObject.transform.position;
             spawnPos.z -= 1.5f;
@@ -178,11 +163,15 @@ public class AlienScript : MonoBehaviour
 
     protected void Die()
     {
+        audioSource.clip = deathSound;
+        audioSource.Play();
+        Instantiate(deathExplosion, gameObject.transform.position, Quaternion.AngleAxis(-90, Vector3.right));
+
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
 
         rb.useGravity = true;
         rb.isKinematic = false;
-        
+
         rb.constraints &= ~RigidbodyConstraints.FreezePositionX;
         rb.constraints &= ~RigidbodyConstraints.FreezePositionZ;
 
@@ -246,7 +235,7 @@ public class AlienScript : MonoBehaviour
             GameManager.Instance.SaveScore();
             Debug.Log("Game Over");
         }
-        if(collider.CompareTag("PlayerBullet"))
+        if (collider.CompareTag("PlayerBullet"))
         {
 
             BulletScript bullet = collider.gameObject.GetComponent<BulletScript>();
@@ -266,7 +255,7 @@ public class AlienScript : MonoBehaviour
         if (collider.CompareTag("Boundary"))
         {
             int rand = Random.Range(0, 10);
-            if(rand > 5)
+            if (rand > 5)
             {
                 isMutatable = false;
                 //isZombie = false;
@@ -313,10 +302,10 @@ public class AlienScript : MonoBehaviour
         //    collider.gameObject.GetComponent<ShieldScript>().TakeDamage();
         //}
 
-            //if (collider.CompareTag("Alien") && collider.gameObject.GetComponent<AlienScript>().isAlive)
-            //{
-            //    collider.gameObject.GetComponent<AlienScript>().Die();
-            //    global.KillOneAlien();
-            //}
+        //if (collider.CompareTag("Alien") && collider.gameObject.GetComponent<AlienScript>().isAlive)
+        //{
+        //    collider.gameObject.GetComponent<AlienScript>().Die();
+        //    global.KillOneAlien();
+        //}
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class UFOScript : AlienScript
 {
     public Material goldenMaterial;
+    public AudioClip UFOFlying;
+    public AudioClip UFOTurnSkill;
     private void Start()
     {
         global = GameObject.Find("Global").GetComponent<Gobal>();
@@ -13,7 +15,9 @@ public class UFOScript : AlienScript
     public override void Move(Vector3 dir)
     {
         this.GetComponent<Rigidbody>().AddRelativeForce(dir);
-        
+        audioSource.clip = UFOFlying;
+        audioSource.Play();
+
     }
 
     protected override void OnCollisionEnter(Collision collision)
@@ -35,7 +39,13 @@ public class UFOScript : AlienScript
         }
         if (collision.collider.CompareTag("Boundary"))
         {
+            if(collision.collider.gameObject.name == "RightBound")
+            {
+                Destroy(this.gameObject);
+            }
             this.gameObject.GetComponent<Renderer>().material = goldenMaterial;
+            audioSource.clip = UFOTurnSkill;
+            audioSource.Play();
         }
         if (collision.collider.CompareTag("Player"))
         {

@@ -9,12 +9,18 @@ public class PlayerScript : MonoBehaviour
     public float speed;
     public GameObject deathExplosion;
 
+    public AudioClip deathSound;
+    public AudioClip shootSound;
+
+    private AudioSource audioSource;
+
     private Gobal global;
     // Start is called before the first frame update
     void Start()
     {
         global = GameObject.Find("Global").GetComponent<Gobal>();
         StartCoroutine(BlinkAndDie(0.8f, 0.2f));
+        audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -64,6 +70,9 @@ public class PlayerScript : MonoBehaviour
 
     void Shoot()
     {
+        audioSource.clip = shootSound;
+        audioSource.Play();
+
         activeBullet --;
         global.UpdateBullet(activeBullet);
         if (global.POWER) activeBullet = 200;
@@ -75,7 +84,10 @@ public class PlayerScript : MonoBehaviour
 
     void ShootBulletShield()
     {
-        Debug.Log("blueet rainnnnnn");
+
+        audioSource.clip = shootSound;
+        audioSource.Play();
+
         global.MinusSkill();
         Vector3 spawnPos = gameObject.transform.position;
         int angleStep = 10;
@@ -111,6 +123,8 @@ public class PlayerScript : MonoBehaviour
 
     void Die()
     {
+        audioSource.clip = deathSound;
+        audioSource.Play();
 
         // Explosion Effect
         Instantiate(deathExplosion, gameObject.transform.position, Quaternion.AngleAxis(-90, Vector3.right));

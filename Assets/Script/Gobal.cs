@@ -23,9 +23,15 @@ public class Gobal : MonoBehaviour
     private int curAlienNum = 0;
 
     public bool POWER = false;
+
+    private AudioSource audioSource;
+    public AudioClip gainSkillSound;
+
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = this.gameObject.GetComponent<AudioSource>();
+
         scoreBoard.text = score.ToString();
 
         // TODO change to ship sprite
@@ -43,6 +49,9 @@ public class Gobal : MonoBehaviour
 
         // Spawn UFO
         StartCoroutine(SpawnUFO());
+
+
+        // sound for alien
     }
 
     public void SpawnAlien()
@@ -91,6 +100,10 @@ public class Gobal : MonoBehaviour
     public void AddSkill()
     {
         Debug.Log("Add skilll here");
+
+        audioSource.clip = gainSkillSound;
+        audioSource.Play();
+
         skill++;
         skillBoard.text = skill.ToString();
     }
@@ -128,6 +141,7 @@ public class Gobal : MonoBehaviour
         livesBoard.text = lives.ToString();
         if(lives == 0)
         {
+
             SceneManager.LoadScene("EndScene");
             Debug.Log("Game Over");
 

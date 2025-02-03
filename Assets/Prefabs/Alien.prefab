@@ -160,6 +160,7 @@ MonoBehaviour:
   firstBeep: {fileID: 8300000, guid: 8cf7c7a98ff834cb8a6272047280d1d2, type: 3}
   secondBeep: {fileID: 8300000, guid: 964197fb378a34992a94e30cc617ff53, type: 3}
   deathExplosion: {fileID: 8461138682445745545, guid: 7f7ced1ae0d8c46a291606eaf05bdf05, type: 3}
+  deathSound: {fileID: 8300000, guid: 49460d52d9a5646fc9310f7831dd3875, type: 3}
 --- !u!82 &5269116451595682591
 AudioSource:
   m_ObjectHideFlags: 0
