@@ -14,13 +14,19 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         global = GameObject.Find("Global").GetComponent<Gobal>();
+        StartCoroutine(BlinkAndDie(0.8f, 0.2f));
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (gameObject.transform.position.z < -30f)
+        {
+            TakeDamage();
+            Instantiate(this.gameObject, new Vector3(0, 0, -10.5f), Quaternion.identity);
+            Destroy(this.gameObject);
+        }
+            if (Input.GetKeyDown(KeyCode.Q))
         {
             global.lives += 10;
             activeBullet += 100;

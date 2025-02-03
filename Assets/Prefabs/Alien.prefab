@@ -151,12 +151,15 @@ MonoBehaviour:
   alienBullet: {fileID: 4519238482485040744, guid: 6598858b8dc0a45eabaad90edb0652ce, type: 3}
   hasActiveBullet: 0
   uuid: 0
+  isAlive: 0
   alienGrey: {fileID: 2100000, guid: e49e436d0313949588e8c38d71f45247, type: 2}
   alienRed: {fileID: 2100000, guid: 0909ce8a5ef514f1f90a996b9cdb3fc4, type: 2}
   bouncy: {fileID: 13400000, guid: ee4c0959e7c014826bcebe52a971bfc5, type: 2}
   isMutatable: 1
+  isZombie: 0
   firstBeep: {fileID: 8300000, guid: 8cf7c7a98ff834cb8a6272047280d1d2, type: 3}
   secondBeep: {fileID: 8300000, guid: 964197fb378a34992a94e30cc617ff53, type: 3}
+  deathExplosion: {fileID: 8461138682445745545, guid: 7f7ced1ae0d8c46a291606eaf05bdf05, type: 3}
 --- !u!82 &5269116451595682591
 AudioSource:
   m_ObjectHideFlags: 0

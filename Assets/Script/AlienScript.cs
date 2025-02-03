@@ -14,7 +14,7 @@ public class AlienScript : MonoBehaviour
 
     private float timer = 0.0f;
     private float interval = 1.0f;
-    private readonly int step = 12;
+    private readonly int step = 7;
     private readonly float dist = 0.5f;
     private int curStep = 0;
     private Vector3 curDir;
@@ -43,6 +43,7 @@ public class AlienScript : MonoBehaviour
     private bool isReturning = false;
     private bool isMutating;
 
+    public GameObject deathExplosion;
 
     void Awake()
     {
@@ -59,7 +60,7 @@ public class AlienScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.transform.position.z < -30f || gameObject.transform.position.z > 30f || gameObject.transform.position.x < -100 || gameObject.transform.position.x > 100)
+        if (gameObject.transform.position.z < -30f || gameObject.transform.position.z > 30f || gameObject.transform.position.x < -100f || gameObject.transform.position.x > 100f)
         {
             if(isVictim)
             {
@@ -195,8 +196,9 @@ public class AlienScript : MonoBehaviour
     {
         if (!isAlive)
         {
-            Destroy(gameObject);
+            Instantiate(deathExplosion, gameObject.transform.position, Quaternion.AngleAxis(-90, Vector3.right));
             global.AddScore(points);
+            Destroy(gameObject);
             return true;
         }
         else

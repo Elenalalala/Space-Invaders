@@ -50,10 +50,10 @@ public class Gobal : MonoBehaviour
         // Spawn the aliens
         for (int r = 0; r < (curRow + curLevel); r++)
         {
-            for (int c = -6; c < 6; c++)
+            for (int c = -6; c < 5; c++)
             {
                 curAlienNum++;
-                Vector3 spawnPos = new Vector3(c * 2.5f, 0, 8.0f - r * 2.5f);
+                Vector3 spawnPos = new Vector3(c * 2f, 0, 8.0f - r * 2f);
                 GameObject alienObj = Instantiate(alien, spawnPos, Quaternion.identity) as GameObject;
                 alienObj.GetComponent<AlienScript>().SetUUID(c + r * 11);
                 enemyBoard.text = curAlienNum.ToString();
