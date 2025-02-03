@@ -23,11 +23,14 @@ public class AlienScript : MonoBehaviour
     private readonly int speedUpInterval = 1;
     private int speedUpCounter = 0;
 
-    private bool isAlive;
+    public bool isAlive;
     public Material alienGrey;
+    public Material alienRed;
     public PhysicMaterial bouncy;
     public bool isMutatable;
     private int MutatableTimes = 1;
+    public bool isZombie = false;
+    private bool isVictim = false;
 
 
     private float shootTimer = 0f;
@@ -35,7 +38,11 @@ public class AlienScript : MonoBehaviour
 
     public AudioClip firstBeep;
     public AudioClip secondBeep;
-    // Start is called before the first frame update
+
+    private Vector3 originalPosition;
+    private bool isReturning = false;
+    private bool isMutating;
+
     void Awake()
     {
         global = GameObject.Find("Global").GetComponent<Gobal>();
@@ -51,6 +58,14 @@ public class AlienScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameObject.transform.position.z < -30f)
+        {
+            if(isVictim)
+            {
+                global.KillOneAlien();
+            }
+            Destroy(gameObject);
+        }
         if (isAlive)
         {
             timer += Time.deltaTime;
@@ -96,6 +111,22 @@ public class AlienScript : MonoBehaviour
                     nextShootTime = Random.Range(3.0f, 10.0f);
                 }
             }
+
+            if (!isReturning)
+            {
+                originalPosition = this.gameObject.transform.position;
+            }
+            else
+            {
+                float returnSpeed = 10f;
+                this.gameObject.transform.position = Vector3.Lerp(transform.position, originalPosition, Time.deltaTime * returnSpeed);
+
+                if (Vector3.Distance(transform.position, originalPosition) < 0.1f)
+                {
+                    isReturning = false;
+                    this.gameObject.transform.position = originalPosition;
+                }
+            }
         }
 
     }
@@ -110,6 +141,7 @@ public class AlienScript : MonoBehaviour
         if (firstBeep && secondBeep)
         {
             gameObject.transform.position += dir;
+            originalPosition += dir;
             if (curStep % 2 == 0)
             {
                 audioSource.clip = firstBeep;
@@ -141,17 +173,19 @@ public class AlienScript : MonoBehaviour
         bullet = null;
     }
 
-    void Die()
+    protected void Die()
     {
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
 
         rb.useGravity = true;
         rb.isKinematic = false;
-        rb.mass = 0.1f;
+        
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionX;
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionZ;
 
         isAlive = false;
         gameObject.GetComponent<MeshRenderer>().material = alienGrey;
-        gameObject.GetComponent<BoxCollider>().material = bouncy;
+        //gameObject.GetComponent<BoxCollider>().material = bouncy;
 
     }
 
@@ -160,6 +194,7 @@ public class AlienScript : MonoBehaviour
         if (!isAlive)
         {
             Destroy(gameObject);
+            global.AddScore(points);
             return true;
         }
         else
@@ -169,24 +204,39 @@ public class AlienScript : MonoBehaviour
     }
     void Mutate()
     {
+        gameObject.GetComponent<MeshRenderer>().material = alienRed;
+        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        gameObject.GetComponent<MeshFilter>().mesh = sphere.GetComponent<MeshFilter>().mesh;
+        Destroy(sphere);
+        Destroy(gameObject.GetComponent<BoxCollider>());
+        gameObject.AddComponent<SphereCollider>();
+        gameObject.GetComponent<SphereCollider>().material = bouncy;
+
+
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         Vector3 currentVelocity = rb.velocity;
-        Vector3 offset = new Vector3(0.5f, 0, 0);
-        GameObject duplicate = Instantiate(this.gameObject, gameObject.transform.position + offset, Quaternion.identity) as GameObject;
-        AlienScript alienScript = duplicate.GetComponent<AlienScript>();
 
-        alienScript.isAlive = false;
-        alienScript.isMutatable = false;
+        //rb.velocity = new Vector3(-currentVelocity.x, currentVelocity.y, currentVelocity.z);
 
-        Debug.Log(alienScript.isAlive);
+        isZombie = true;
 
-        duplicate.GetComponent<Rigidbody>().velocity = new Vector3(-currentVelocity.x, currentVelocity.y, currentVelocity.z);
+        this.points *= 2;
+
+        StartCoroutine(ResetMutationCooldown());
+
+
     }
 
-    private void OnCollisionEnter(Collision collision)
+    IEnumerator ResetMutationCooldown()
+    {
+        yield return new WaitForSeconds(1f); // You can adjust this time to better suit gameplay
+        isMutating = false;
+    }
+
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         Collider collider = collision.collider;
-        if (collider.CompareTag("Player"))
+        if (collider.CompareTag("Player") && (isZombie || isAlive) )
         {
             SceneManager.LoadScene("EndScene");
             GameManager.Instance.SaveScore();
@@ -196,38 +246,72 @@ public class AlienScript : MonoBehaviour
         {
 
             BulletScript bullet = collider.gameObject.GetComponent<BulletScript>();
-            bullet.Die();
+            if (bullet.isAlive)
+            {
+                bullet.Die();
 
 
-            if (ReallyDie()) return;
-            Die();
-            global.KillOneAlien();
-            global.AddScore(points);
+                if (ReallyDie()) return;
+                Die();
+                global.KillOneAlien();
+                global.AddScore(points);
+            }
 
         }
         if (collider.CompareTag("Boundary"))
         {
-            if (isMutatable && MutatableTimes > 0)
+            int rand = Random.Range(0, 10);
+            if(rand > 5)
+            {
+                isMutatable = false;
+                //isZombie = false;
+            }
+            if (isMutatable && MutatableTimes > 0 && !isZombie && !isMutating)
             {
                 Mutate();
+                isVictim = true;
                 MutatableTimes--;
+            }
+
+            if (isZombie)
+            {
+                Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+                Vector3 currentVelocity = rb.velocity;
+                if (currentVelocity.y < 1f)
+                {
+                    rb.AddForce(Vector3.forward * 10f, ForceMode.Impulse);
+                }
+            }
+        }
+
+        if (collider.CompareTag("Alien"))
+        {
+            if (collider.GetComponent<AlienScript>().isZombie && !isZombie && isMutatable)
+            {
+                this.Die();
+                this.Mutate();
             }
             else
             {
-                // TODO explosion? 
+                float hitOffset = 0.3f;
+                Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
+                transform.position += hitDirection * hitOffset;
+
+                isReturning = true;
             }
+
         }
 
 
-        if (collider.CompareTag("Shield"))
-        {
-            collider.gameObject.GetComponent<ShieldScript>().TakeDamage();
-        }
+        //if (collider.CompareTag("Shield"))
+        //{
+        //    collider.gameObject.GetComponent<ShieldScript>().TakeDamage();
+        //}
 
-        if (collider.CompareTag("Alien") && collider.gameObject.GetComponent<AlienScript>().isAlive)
-        {
-            collider.gameObject.GetComponent<AlienScript>().Die();
-            global.KillOneAlien();
-        }
+            //if (collider.CompareTag("Alien") && collider.gameObject.GetComponent<AlienScript>().isAlive)
+            //{
+            //    collider.gameObject.GetComponent<AlienScript>().Die();
+            //    global.KillOneAlien();
+            //}
     }
 }

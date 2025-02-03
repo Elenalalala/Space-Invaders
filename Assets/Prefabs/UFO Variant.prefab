@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3867870051295031992, guid: 2d08d7fa8dee3442c9c5cd754a85c758, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867870051295031992, guid: 2d08d7fa8dee3442c9c5cd754a85c758, type: 3}
+      propertyPath: m_Constraints
+      value: 92
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867870051295031992, guid: 2d08d7fa8dee3442c9c5cd754a85c758, type: 3}
       propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
@@ -75,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 7419179697332756636, guid: 2d08d7fa8dee3442c9c5cd754a85c758, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0909ce8a5ef514f1f90a996b9cdb3fc4, type: 2}
+      objectReference: {fileID: 2100000, guid: a34e3cb41e7344fe89f57baeb8da35a6, type: 2}
     m_RemovedComponents:
     - {fileID: 958149531535991597, guid: 2d08d7fa8dee3442c9c5cd754a85c758, type: 3}
     m_RemovedGameObjects: []
@@ -107,5 +115,9 @@ MonoBehaviour:
   hasActiveBullet: 0
   uuid: 200
   alienGrey: {fileID: 2100000, guid: e49e436d0313949588e8c38d71f45247, type: 2}
+  alienRed: {fileID: 0}
+  bouncy: {fileID: 0}
+  isMutatable: 0
   firstBeep: {fileID: 8300000, guid: b1b422854bb4f450d8cf3bc8916b5707, type: 3}
   secondBeep: {fileID: 8300000, guid: b1b422854bb4f450d8cf3bc8916b5707, type: 3}
+  goldenMaterial: {fileID: 2100000, guid: 057df228673754c8d900a62d7c2fd685, type: 2}

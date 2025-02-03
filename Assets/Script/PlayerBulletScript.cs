@@ -12,11 +12,4 @@ public class PlayerBulletScript : BulletScript
         base.Start();
         player = GameObject.Find("Player").GetComponent<PlayerScript>();
     }
-
-    public override void Die()
-    {
-        base.Die();
-        // TODO call back to parent player to enable bullet
-        player.hasActiveBullet = true;
-    }
 }
