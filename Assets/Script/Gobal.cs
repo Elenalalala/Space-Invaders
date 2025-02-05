@@ -141,6 +141,11 @@ public class Gobal : MonoBehaviour
             }
             // Respawn Alien
             curLevel++;
+            if(curLevel >= 5)
+            {
+                GameManager.Instance.SaveScore();
+                SceneManager.LoadScene("WinScene");
+            }
             curAlienNum = 0;
             enemyBoard.text = curAlienNum.ToString();
             SpawnAlien();

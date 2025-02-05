@@ -263,7 +263,7 @@ public class AlienScript : MonoBehaviour
         if (collider.CompareTag("Boundary"))
         {
             int rand = Random.Range(0, 10);
-            if (rand > 7)
+            if (rand >= 7)
             {
                 isMutatable = false;
                 //isZombie = false;
@@ -311,10 +311,10 @@ public class AlienScript : MonoBehaviour
         }
 
 
-        //if (collider.CompareTag("Shield"))
-        //{
-        //    collider.gameObject.GetComponent<ShieldScript>().TakeDamage();
-        //}
+        if (collider.CompareTag("Shield"))
+        {
+            collider.gameObject.GetComponent<ShieldScript>().TakeDamage();
+        }
 
         //if (collider.CompareTag("Alien") && collider.gameObject.GetComponent<AlienScript>().isAlive)
         //{

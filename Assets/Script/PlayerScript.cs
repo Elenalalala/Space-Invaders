@@ -15,6 +15,8 @@ public class PlayerScript : MonoBehaviour
     private AudioSource audioSource;
 
     private Gobal global;
+    private int savedRow = 0;
+    private int savedLevel = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,20 @@ public class PlayerScript : MonoBehaviour
         {
             Camera.main.orthographic = !Camera.main.orthographic;
         }
+        // back door for demo
+        //if (Input.GetKeyDown(KeyCode.V))
+        //{
+        //    savedRow = global.curRow;
+        //    savedLevel = global.curLevel;
+        //    global.curRow = 0;
+        //    global.curLevel = -1;
+        //}
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    global.curRow = savedRow;
+        //    global.curLevel = savedLevel;
+
+        //}
         if (gameObject.transform.position.z < -30f)
         {
             TakeDamage();
