@@ -26,6 +26,7 @@ public class AlienScript : MonoBehaviour
     public bool isAlive;
     public Material alienGrey;
     public Material alienRed;
+    public Material alienGold;
     public PhysicMaterial bouncy;
     public bool isMutatable;
     private int MutatableTimes = 1;
@@ -42,6 +43,8 @@ public class AlienScript : MonoBehaviour
 
     public GameObject deathExplosion;
     public AudioClip deathSound;
+
+    [Range(0, 1)] public float lightness = 0.8f;
 
     void Awake()
     {
@@ -177,6 +180,7 @@ public class AlienScript : MonoBehaviour
 
         isAlive = false;
         gameObject.GetComponent<MeshRenderer>().material = alienGrey;
+
         //gameObject.GetComponent<BoxCollider>().material = bouncy;
 
     }
@@ -229,6 +233,12 @@ public class AlienScript : MonoBehaviour
     protected virtual void OnCollisionEnter(Collision collision)
     {
         Collider collider = collision.collider;
+        if(collider.CompareTag("Player") && this.gameObject.GetComponent<Renderer>().sharedMaterial == alienGold)
+        {
+            collider.gameObject.GetComponent<PlayerScript>().AbsorbBulletRainSkill();
+            Destroy(gameObject);
+        }
+
         if ((collider.CompareTag("Player") && (isZombie || isAlive)) && !global.POWER)
         {
             SceneManager.LoadScene("EndScene");
@@ -255,10 +265,16 @@ public class AlienScript : MonoBehaviour
         if (collider.CompareTag("Boundary"))
         {
             int rand = Random.Range(0, 10);
-            if (rand > 5)
+            if (rand > 6)
             {
                 isMutatable = false;
                 //isZombie = false;
+            }
+            if(rand < 2 && !isAlive && !isZombie)
+            {
+                isMutatable = false;
+                // Become Skill
+                gameObject.GetComponent<MeshRenderer>().material = alienGold;
             }
             if (isMutatable && MutatableTimes > 0 && !isZombie && !isMutating)
             {

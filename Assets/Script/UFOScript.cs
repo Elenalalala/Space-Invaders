@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class UFOScript : AlienScript
 {
-    public Material goldenMaterial;
     public AudioClip UFOFlying;
     public AudioClip UFOTurnSkill;
     private void Start()
@@ -43,16 +42,16 @@ public class UFOScript : AlienScript
             {
                 Destroy(this.gameObject);
             }
-            this.gameObject.GetComponent<Renderer>().material = goldenMaterial;
+            this.gameObject.GetComponent<Renderer>().material = alienGold;
             audioSource.clip = UFOTurnSkill;
             audioSource.Play();
         }
         if (collision.collider.CompareTag("Player"))
         {
-            if (this.gameObject.GetComponent<Renderer>().sharedMaterial == goldenMaterial)
+            if (this.gameObject.GetComponent<Renderer>().sharedMaterial == alienGold)
             {
                 // get absorbed by the player
-                collision.collider.gameObject.GetComponent<PlayerScript>().AbsorbBulletRainSkill();
+                collision.collider.gameObject.GetComponent<PlayerScript>().AbsorbLife();
                 Destroy(gameObject);
 
             }

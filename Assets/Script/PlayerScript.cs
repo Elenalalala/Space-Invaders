@@ -121,6 +121,12 @@ public class PlayerScript : MonoBehaviour
         global.AddSkill();
     }
 
+    public void AbsorbLife()
+    {
+        Debug.Log("addddd life");
+        global.AddLife(1);
+    }
+
     void Die()
     {
         audioSource.clip = deathSound;

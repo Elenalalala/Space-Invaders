@@ -26,6 +26,8 @@ public class Gobal : MonoBehaviour
 
     private AudioSource audioSource;
     public AudioClip gainSkillSound;
+    public AudioClip gainLifeSound;
+    public AudioClip gainPointSound;
 
     // Start is called before the first frame update
     void Start()
@@ -90,9 +92,20 @@ public class Gobal : MonoBehaviour
             spawnedUFO = null;
         }
     }
+    public void AddLife(int num)
+    {
+        audioSource.clip = gainLifeSound;
+        audioSource.Play();
+
+        lives += num;
+        livesBoard.text = lives.ToString();
+    }
 
     public void AddScore(int points)
     {
+        audioSource.clip = gainPointSound;
+        audioSource.Play();
+
         score += points;
         scoreBoard.text = score.ToString();
     }

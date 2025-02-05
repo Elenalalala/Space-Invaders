@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: -1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bf2a11b5b1c94f188d8016b0b00b50c, type: 2}
+  - {fileID: 2100000, guid: 5d97c71fbf6934d46bfc48d2ec17d1a7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -152,15 +152,15 @@ MonoBehaviour:
   hasActiveBullet: 0
   uuid: 0
   isAlive: 0
-  alienGrey: {fileID: 2100000, guid: e49e436d0313949588e8c38d71f45247, type: 2}
-  alienRed: {fileID: 2100000, guid: 0909ce8a5ef514f1f90a996b9cdb3fc4, type: 2}
+  alienGrey: {fileID: 2100000, guid: f9b201c22a91144329b13a22209144c1, type: 2}
+  alienRed: {fileID: 2100000, guid: 9bdc4483243334314bc70f543824a34a, type: 2}
+  alienGold: {fileID: 2100000, guid: 4698a3679559b4b3982b2bfc850b1605, type: 2}
   bouncy: {fileID: 13400000, guid: ee4c0959e7c014826bcebe52a971bfc5, type: 2}
   isMutatable: 1
   isZombie: 0
-  firstBeep: {fileID: 8300000, guid: 8cf7c7a98ff834cb8a6272047280d1d2, type: 3}
-  secondBeep: {fileID: 8300000, guid: 964197fb378a34992a94e30cc617ff53, type: 3}
   deathExplosion: {fileID: 8461138682445745545, guid: 7f7ced1ae0d8c46a291606eaf05bdf05, type: 3}
   deathSound: {fileID: 8300000, guid: 49460d52d9a5646fc9310f7831dd3875, type: 3}
+  lightness: 0.8
 --- !u!82 &5269116451595682591
 AudioSource:
   m_ObjectHideFlags: 0

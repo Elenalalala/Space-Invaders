@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6553377473249166313, guid: 2d08d7fa8dee3442c9c5cd754a85c758, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6553377473249166313, guid: 2d08d7fa8dee3442c9c5cd754a85c758, type: 3}
       propertyPath: m_LocalScale.z
@@ -87,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 7419179697332756636, guid: 2d08d7fa8dee3442c9c5cd754a85c758, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a34e3cb41e7344fe89f57baeb8da35a6, type: 2}
+      objectReference: {fileID: 2100000, guid: 2351bcef9e31743b3a756c6d26675810, type: 2}
     m_RemovedComponents:
     - {fileID: 958149531535991597, guid: 2d08d7fa8dee3442c9c5cd754a85c758, type: 3}
     m_RemovedGameObjects: []
@@ -119,13 +119,15 @@ MonoBehaviour:
   hasActiveBullet: 0
   uuid: 200
   isAlive: 0
-  alienGrey: {fileID: 2100000, guid: e49e436d0313949588e8c38d71f45247, type: 2}
-  alienRed: {fileID: 0}
+  alienGrey: {fileID: 2100000, guid: ee48e5848c8a44070a75496d2fbc298c, type: 2}
+  alienRed: {fileID: 2100000, guid: 2351bcef9e31743b3a756c6d26675810, type: 2}
+  alienGold: {fileID: 2100000, guid: f139f9d22e8a2416a98e2a1a0b68f0cb, type: 2}
   bouncy: {fileID: 0}
   isMutatable: 0
   isZombie: 0
   deathExplosion: {fileID: 8461138682445745545, guid: 7f7ced1ae0d8c46a291606eaf05bdf05, type: 3}
   deathSound: {fileID: 8300000, guid: 49460d52d9a5646fc9310f7831dd3875, type: 3}
+  lightness: 0.8
   goldenMaterial: {fileID: 2100000, guid: 057df228673754c8d900a62d7c2fd685, type: 2}
   UFOFlying: {fileID: 8300000, guid: b96dc089dee9d47d08fb761501a0e20f, type: 3}
   UFOTurnSkill: {fileID: 8300000, guid: 907f52b804a6e4f9e82c58aaedb3f146, type: 3}
