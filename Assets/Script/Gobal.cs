@@ -16,7 +16,7 @@ public class Gobal : MonoBehaviour
     public int skill = 3;
     public int curLevel = 0;
 
-    public GameObject alien;
+    public List<GameObject> aliens;
     public GameObject UFO;
     public int curRow = 3;
 
@@ -65,6 +65,7 @@ public class Gobal : MonoBehaviour
             {
                 curAlienNum++;
                 Vector3 spawnPos = new Vector3(c * 2f, 0, 8.0f - r * 2f);
+                GameObject alien = r < 4 ? aliens[r % 4] : aliens[3];
                 GameObject alienObj = Instantiate(alien, spawnPos, Quaternion.identity) as GameObject;
                 alienObj.GetComponent<AlienScript>().SetUUID(c + r * 11);
                 enemyBoard.text = curAlienNum.ToString();

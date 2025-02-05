@@ -26,13 +26,17 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Camera.main.orthographic = !Camera.main.orthographic;
+        }
         if (gameObject.transform.position.z < -30f)
         {
             TakeDamage();
             Instantiate(this.gameObject, new Vector3(0, 0, -10.5f), Quaternion.identity);
             Destroy(this.gameObject);
         }
-            if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             global.lives += 10;
             activeBullet += 100;
@@ -51,7 +55,8 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetAxisRaw("Vertical") > 0 && global.skill > 0)
             {
                 ShootBulletShield();
-            }else if (activeBullet > 0)
+            }
+            else if (activeBullet > 0)
             {
                 Shoot();
             }
@@ -73,7 +78,7 @@ public class PlayerScript : MonoBehaviour
         audioSource.clip = shootSound;
         audioSource.Play();
 
-        activeBullet --;
+        activeBullet--;
         global.UpdateBullet(activeBullet);
         if (global.POWER) activeBullet = 200;
         Vector3 spawnPos = gameObject.transform.position;
@@ -93,7 +98,7 @@ public class PlayerScript : MonoBehaviour
         int angleStep = 10;
         float radius = 3f;
 
-        for(int i = 10; i <= 170; i+= angleStep)
+        for (int i = 10; i <= 170; i += angleStep)
         {
             float radian = Mathf.Deg2Rad * i;
 

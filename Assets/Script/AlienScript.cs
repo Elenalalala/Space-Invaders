@@ -202,11 +202,9 @@ public class AlienScript : MonoBehaviour
     void Mutate()
     {
         gameObject.GetComponent<MeshRenderer>().material = alienRed;
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        gameObject.GetComponent<MeshFilter>().mesh = sphere.GetComponent<MeshFilter>().mesh;
-        Destroy(sphere);
         Destroy(gameObject.GetComponent<BoxCollider>());
         gameObject.AddComponent<SphereCollider>();
+        gameObject.GetComponent<SphereCollider>().radius = 0.9f;
         gameObject.GetComponent<SphereCollider>().material = bouncy;
 
 
@@ -265,12 +263,12 @@ public class AlienScript : MonoBehaviour
         if (collider.CompareTag("Boundary"))
         {
             int rand = Random.Range(0, 10);
-            if (rand > 6)
+            if (rand > 7)
             {
                 isMutatable = false;
                 //isZombie = false;
             }
-            if(rand < 2 && !isAlive && !isZombie)
+            if(rand <= 3 && !isAlive && !isZombie)
             {
                 isMutatable = false;
                 // Become Skill

@@ -147,12 +147,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f353451af054a839e76d00ca5a6c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points: 10
+  points: 20
   alienBullet: {fileID: 4519238482485040744, guid: 6598858b8dc0a45eabaad90edb0652ce, type: 3}
   hasActiveBullet: 0
   uuid: 0
   isAlive: 0
-  alienGrey: {fileID: 2100000, guid: e49e436d0313949588e8c38d71f45247, type: 2}
+  alienGrey: {fileID: 2100000, guid: 92b5d618497714e388c0196565b2295f, type: 2}
   alienRed: {fileID: 2100000, guid: 3fdce0c0fcbb442dcbbfdb22f9954cb2, type: 2}
   alienGold: {fileID: 2100000, guid: 1aad0a8f423d8401d8115ae94593ae1b, type: 2}
   bouncy: {fileID: 13400000, guid: ee4c0959e7c014826bcebe52a971bfc5, type: 2}

@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f353451af054a839e76d00ca5a6c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points: 10
+  points: 30
   alienBullet: {fileID: 4519238482485040744, guid: 6598858b8dc0a45eabaad90edb0652ce, type: 3}
   hasActiveBullet: 0
   uuid: 0
