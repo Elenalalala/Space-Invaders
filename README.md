@@ -15,3 +15,14 @@ The Red Zombie will bounce around, convert other alive alien into zombies and co
 
 
 If you survived 5 levels of alien waves, you will win the game. 
+
+
+If you press Q, you can gain 3 lives, 100 bullet and 10 skills for you to cheat. This will also prevent you die from the red zombies. Press E to restore dying from the attack of the red zombies. 
+
+
+For 3D camera, press C to see the effect. 
+
+
+The player will die and lose a life if they fall off the platform. 
+
+
